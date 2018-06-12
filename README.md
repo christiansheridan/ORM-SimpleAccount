@@ -10,11 +10,12 @@
 		*  password VARCHAR(20)
 		*  PRIMARY KEY = id
 
-# PART 2 - CREATE JAVA APP
+# PART 2 - Create Java App
 
 ## Adding dependencies
 1 Create a new Java Maven project
-2 Update the pom.xml file by adding the following dependencies
+2 Update the pom.xml file by adding the following dependencies. These are the dependencies for the ORM library we will be using.
+
 ```
         <!-- https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-core -->
         <dependency>
@@ -29,10 +30,10 @@
             <artifactId>ormlite-jdbc</artifactId>
             <version>4.48</version>
         </dependency>
-        ```
-These are the dependencies for the ORM library we will be using
+```
 
-3 Then also add the following
+
+3 Then also add the following. This is a dependency that allows us to connect our Java code to MySql
 
 ```
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
@@ -114,6 +115,8 @@ public class Account {
     }
 }
 ```
+The things to notice here are the annotations. These annotations tell OrmLite how to relate our Java Objects to the records in MySQL
+
 ## Implement the ORM
 
 Create a Java class name 'AccountApp'
@@ -135,7 +138,7 @@ public class AccountApp {
         ConnectionSource connectionSource = null;
         try {
             // create our data-source for the database
-            connectionSource = new JdbcConnectionSource(DATABASE_URL, "root", "");
+            connectionSource = new JdbcConnectionSource(DATABASE_URL, YOURUSERNAME, YOURPASSWORD);
             // setup our  DAOs
             setupDao(connectionSource);
             // read, write and delete some data
@@ -180,6 +183,12 @@ public class AccountApp {
     }
 }
 ```
+Some of the things to take notice of are the objects that libraries offer use:
+
+* JdbcConnectionSource from the JDBC library
+* Dao and DaoManager from the OrmLite
+
+! Links to the above APIs are listed below
 
 Now if we run this we should see some info in the console of IntelliJ telling us that the program ran ok. And if we look over to MySQL we can query the table and see that our code has create and updated a record in out database
 
@@ -194,4 +203,5 @@ The program this far only runs through a few lines of code before it exits. Upgr
 ### References
 * [OrmLite core API](http://ormlite.com/javadoc/ormlite-core/)
 * [OrmLite JDBC](http://ormlite.com/javadoc/ormlite-jdbc/)
+* [JdbcConnectionSource](http://ormlite.com/javadoc/ormlite-jdbc/com/j256/ormlite/jdbc/JdbcConnectionSource.html)
 * [What is CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
