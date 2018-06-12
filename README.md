@@ -1,6 +1,6 @@
 # Part 1 - Create MySQL Database
 1. Start MySQL from console
-2. Create a new Database named 'orm-lab'
+2. Create a new Database named 'orm_lab'
 3. Inside that database create a new table name 'account'
 4. the schema should be as folllow
 
@@ -14,6 +14,7 @@
 
 ## Adding dependencies
 1 Create a new Java Maven project
+
 2 Update the pom.xml file by adding the following dependencies. These are the dependencies for the ORM library we will be using.
 
 ```
@@ -48,24 +49,22 @@
 Create a new Java class name 'Account'
 
 ```
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "account")
 public class Account {
 
-    // for QueryBuilder to be able to find the fields
     public static final String NAME_FIELD_NAME = "name";
     public static final String PASSWORD_FIELD_NAME = "password";
 
     @DatabaseField(columnName = "id", generatedId = true)
     private int id;
 
-    @DatabaseField(columnName = NAME_FIELD_NAME, canBeNull = false)
+    @DatabaseField(columnName = "name", canBeNull = false)
     private String name;
 
-    @DatabaseField(columnName = PASSWORD_FIELD_NAME)
+    @DatabaseField(columnName = "password")
     private String password;
 
     Account() {
@@ -122,10 +121,15 @@ The things to notice here are the annotations. These annotations tell OrmLite ho
 Create a Java class name 'AccountApp'
 
 ```
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
+
 public class AccountApp {
 
     // we are using a MySQl database
-    private final static String DATABASE_URL = "jdbc:mysql://localhost:3306/orm-lab?useUnicode=true";
+    private final static String DATABASE_URL = "jdbc:mysql://localhost:3306/orm_lab?useUnicode=true";
 
     private Dao<Account, Integer> accountDao;
 
@@ -183,7 +187,7 @@ public class AccountApp {
     }
 }
 ```
-Some of the things to take notice of are the objects that libraries offer use:
+Some of the things in this class to take notice are the objects that the imported libraries offer us:
 
 * JdbcConnectionSource from the JDBC library
 * Dao and DaoManager from the OrmLite
